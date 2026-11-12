@@ -1,13 +1,11 @@
-import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
-
+import 'package:flutter/foundation.dart';
 import '../models/produk.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
-
   static Database? _database;
 
   DatabaseHelper._init();
@@ -21,13 +19,16 @@ class DatabaseHelper {
   Future<Database> _initDB(String filePath) async {
     if (kIsWeb) {
       databaseFactory = databaseFactoryFfiWeb;
-      return await openDatabase(filePath, version: 1, onCreate: _createDB);
     }
 
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
 
-    return await openDatabase(path, version: 1, onCreate: _createDB);
+    return await openDatabase(
+      path,
+      version: 1,
+      onCreate: _createDB,
+    );
   }
 
   Future _createDB(Database db, int version) async {
@@ -53,15 +54,9 @@ class DatabaseHelper {
 
   Future<int> insertProduk(Produk produk) async {
     final db = await instance.database;
-    final id = await db.insert(
-      'produk',
-      produk.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-    return id;
+    return await db.insert('produk', produk.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
-  // TANTANGAN 2: Diubah dari 'id DESC' menjadi 'harga_jual ASC' (Termurah ke Termahal)
   Future<List<Produk>> getAllProduk() async {
     final db = await instance.database;
     final result = await db.query('produk', orderBy: 'harga_jual ASC');
@@ -73,14 +68,12 @@ class DatabaseHelper {
     if (kategori == 'Semua') {
       return await getAllProduk();
     }
-
     final result = await db.query(
       'produk',
       where: 'kategori = ?',
       whereArgs: [kategori],
       orderBy: 'harga_jual ASC',
     );
-
     return result.map((json) => Produk.fromMap(json)).toList();
   }
 
@@ -92,18 +85,12 @@ class DatabaseHelper {
       whereArgs: ['%$keyword%'],
       orderBy: 'harga_jual ASC',
     );
-
     return result.map((json) => Produk.fromMap(json)).toList();
   }
 
   Future<int> updateProduk(Produk produk) async {
     final db = await instance.database;
-    return await db.update(
-      'produk',
-      produk.toMap(),
-      where: 'id = ?',
-      whereArgs: [produk.id],
-    );
+    return await db.update('produk', produk.toMap(), where: 'id = ?', whereArgs: [produk.id]);
   }
 
   Future<int> deleteProduk(int id) async {

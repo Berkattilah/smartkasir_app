@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'pages/splash_screen_page.dart';
+import 'pages/dashboard_page.dart';
 
 void main() {
-  runApp(const SmartKasirApp());
+  runApp(const MyApp());
 }
 
-class SmartKasirApp extends StatelessWidget {
-  const SmartKasirApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,19 +14,10 @@ class SmartKasirApp extends StatelessWidget {
       title: 'SmartKasir',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1E3A8A)),
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.teal, // Menggunakan tema hijau teal (Live Tweak)
-          brightness: Brightness.light,
-        ),
-        appBarTheme: const AppBarTheme(
-          centerTitle: true,
-          elevation: 2,
-          backgroundColor: Color(0xFF1E3A8A),
-          foregroundColor: Colors.white,
-        ),
       ),
-      home: const SplashScreenPage(),
+      home: const DashboardPage(),
     );
   }
 }
