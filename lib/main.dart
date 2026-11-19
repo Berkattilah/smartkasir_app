@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'pages/dashboard_page.dart';
+
+import 'pages/main_navigation_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const SmartKasirApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class SmartKasirApp extends StatelessWidget {
+  const SmartKasirApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1E3A8A)),
         useMaterial3: true,
       ),
-      home: const DashboardPage(),
+      home: const MainNavigationPage(),
     );
   }
 }

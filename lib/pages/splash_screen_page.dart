@@ -1,5 +1,7 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
+
 import 'main_navigation_page.dart';
 
 class SplashScreenPage extends StatefulWidget {
@@ -57,7 +59,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
+                    color: Colors.black.withValues(alpha: 0.2),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -82,10 +84,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
             const SizedBox(height: 6),
             const Text(
               'Aplikasi Kasir Point of Sale Digital',
-              style: TextStyle(
-                fontSize: 13,
-                color: Colors.white70,
-              ),
+              style: TextStyle(fontSize: 13, color: Colors.white70),
             ),
             const SizedBox(height: 36),
             const SizedBox(
@@ -99,10 +98,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
             const SizedBox(height: 14),
             Text(
               'Menyiapkan sistem SmartKasir ($_durasiDetik detik)...',
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.white70,
-              ),
+              style: const TextStyle(fontSize: 12, color: Colors.white70),
             ),
             const SizedBox(height: 40),
             Text(

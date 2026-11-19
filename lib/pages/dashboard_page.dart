@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '../models/produk.dart';
 import '../helpers/database_helper.dart';
 import 'form_produk_page.dart';
@@ -13,9 +14,15 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   int _kategoriTerpilih = 0;
-  
+
   // TANTANGAN 1: Ditambahkan 'Dessert' ke dalam list filter chip dashboard
-  final List<String> _kategoriList = ['Semua', 'Makanan', 'Minuman', 'Snack', 'Dessert'];
+  final List<String> _kategoriList = [
+    'Semua',
+    'Makanan',
+    'Minuman',
+    'Snack',
+    'Dessert',
+  ];
 
   late Future<List<Produk>> _produkFuture;
 
@@ -82,11 +89,13 @@ class _DashboardPageState extends State<DashboardPage> {
             onPressed: () async {
               Navigator.pop(ctx);
               await DatabaseHelper.instance.deleteProduk(item.id!);
-              
+
               if (!mounted) return;
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('Produk "${item.nama}" berhasil dihapus dari database!'),
+                  content: Text(
+                    'Produk "${item.nama}" berhasil dihapus dari database!',
+                  ),
                   backgroundColor: Colors.red.shade700,
                   behavior: SnackBarBehavior.floating,
                 ),
@@ -142,10 +151,7 @@ class _DashboardPageState extends State<DashboardPage> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: const Color(0xFFE2E8F0),
-          width: 1,
-        ),
+        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.08),
@@ -285,7 +291,9 @@ class _DashboardPageState extends State<DashboardPage> {
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('${item.nama} dipilih untuk transaksi kasir'),
+                        content: Text(
+                          '${item.nama} dipilih untuk transaksi kasir',
+                        ),
                         duration: const Duration(seconds: 1),
                       ),
                     );

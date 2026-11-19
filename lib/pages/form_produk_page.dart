@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../models/produk.dart';
 import '../helpers/database_helper.dart';
 
@@ -23,7 +24,13 @@ class _FormProdukPageState extends State<FormProdukPage> {
   final _diskonController = TextEditingController(text: '0');
 
   String _kategoriTerpilih = 'Makanan';
-  final List<String> _kategoriList = ['Makanan', 'Minuman', 'Snack', 'Dessert', 'Lainnya'];
+  final List<String> _kategoriList = [
+    'Makanan',
+    'Minuman',
+    'Snack',
+    'Dessert',
+    'Lainnya',
+  ];
 
   bool _sedangMenyimpan = false;
   bool get _isEditMode => widget.produk != null;
@@ -35,13 +42,16 @@ class _FormProdukPageState extends State<FormProdukPage> {
       final p = widget.produk!;
       _kodeController.text = p.kodeProduk;
       _namaController.text = p.nama;
-      _kategoriTerpilih = _kategoriList.contains(p.kategori) ? p.kategori : 'Makanan';
+      _kategoriTerpilih = _kategoriList.contains(p.kategori)
+          ? p.kategori
+          : 'Makanan';
       _hargaBeliController.text = p.hargaBeli.toInt().toString();
       _hargaJualController.text = p.hargaJual.toInt().toString();
       _stokController.text = p.stok.toString();
       _diskonController.text = p.diskonPersen.toString();
     } else {
-      _kodeController.text = 'PRD-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}';
+      _kodeController.text =
+          'PRD-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}';
     }
   }
 
@@ -75,9 +85,7 @@ class _FormProdukPageState extends State<FormProdukPage> {
         hargaBeli: beli,
         hargaJual: jual,
         stok: stok,
-        gambarUrl: _isEditMode
-            ? widget.produk!.gambarUrl
-            : 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=500',
+        gambarUrl: _isEditMode ? widget.produk!.gambarUrl : 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=500',
         diskonPersen: diskon,
       );
 
@@ -92,7 +100,10 @@ class _FormProdukPageState extends State<FormProdukPage> {
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Gagal menyimpan: $e'), backgroundColor: Colors.red),
+        SnackBar(
+          content: Text('Gagal menyimpan: $e'),
+          backgroundColor: Colors.red,
+        ),
       );
     } finally {
       if (mounted) setState(() => _sedangMenyimpan = false);
@@ -119,29 +130,39 @@ class _FormProdukPageState extends State<FormProdukPage> {
                 readOnly: _isEditMode,
                 decoration: InputDecoration(
                   labelText: 'Kode SKU Produk',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   filled: true,
                   fillColor: _isEditMode ? Colors.grey.shade100 : Colors.white,
                 ),
-                validator: (val) => val == null || val.trim().isEmpty ? 'Kode wajib diisi' : null,
+                validator: (val) => val == null || val.trim().isEmpty
+                    ? 'Kode wajib diisi'
+                    : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _namaController,
                 decoration: InputDecoration(
                   labelText: 'Nama Produk Barang',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   filled: true,
                   fillColor: Colors.white,
                 ),
-                validator: (val) => val == null || val.trim().isEmpty ? 'Nama barang tidak boleh kosong' : null,
+                validator: (val) => val == null || val.trim().isEmpty
+                    ? 'Nama barang tidak boleh kosong'
+                    : null,
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
-                value: _kategoriTerpilih,
+                initialValue: _kategoriTerpilih,
                 decoration: InputDecoration(
                   labelText: 'Kelompok Kategori',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   filled: true,
                   fillColor: Colors.white,
                 ),
@@ -162,11 +183,14 @@ class _FormProdukPageState extends State<FormProdukPage> {
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       decoration: InputDecoration(
                         labelText: 'Harga Modal (Rp)',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         filled: true,
                         fillColor: Colors.white,
                       ),
-                      validator: (val) => val == null || val.isEmpty ? 'Wajib diisi' : null,
+                      validator: (val) =>
+                          val == null || val.isEmpty ? 'Wajib diisi' : null,
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -177,11 +201,14 @@ class _FormProdukPageState extends State<FormProdukPage> {
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       decoration: InputDecoration(
                         labelText: 'Harga Jual (Rp)',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         filled: true,
                         fillColor: Colors.white,
                       ),
-                      validator: (val) => val == null || val.isEmpty ? 'Wajib diisi' : null,
+                      validator: (val) =>
+                          val == null || val.isEmpty ? 'Wajib diisi' : null,
                     ),
                   ),
                 ],
@@ -196,11 +223,14 @@ class _FormProdukPageState extends State<FormProdukPage> {
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       decoration: InputDecoration(
                         labelText: 'Stok Fisik',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         filled: true,
                         fillColor: Colors.white,
                       ),
-                      validator: (val) => val == null || val.isEmpty ? 'Wajib diisi' : null,
+                      validator: (val) =>
+                          val == null || val.isEmpty ? 'Wajib diisi' : null,
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -211,7 +241,9 @@ class _FormProdukPageState extends State<FormProdukPage> {
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       decoration: InputDecoration(
                         labelText: 'Diskon (%)',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         filled: true,
                         fillColor: Colors.white,
                       ),
@@ -233,11 +265,18 @@ class _FormProdukPageState extends State<FormProdukPage> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF1E3A8A),
                     foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                   child: Text(
-                    _isEditMode ? 'PERBARUI DATA PRODUK' : 'SIMPAN PRODUK KE DATABASE',
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    _isEditMode
+                        ? 'PERBARUI DATA PRODUK'
+                        : 'SIMPAN PRODUK KE DATABASE',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
                   ),
                 ),
               ),
